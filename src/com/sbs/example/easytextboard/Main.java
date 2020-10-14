@@ -2,6 +2,7 @@ package com.sbs.example.easytextboard;
 
 import java.util.Scanner;
 
+
 public class Main {
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
@@ -9,14 +10,11 @@ public class Main {
 		int lastArticleid = 0;
 
 		// 1번 게시물 저장소
-		int article1__id = 0;
-		String article1__title = "";
-		String article1__body = "";
+		Article article1 = new Article();
+		
 		// 2번 게시물 저장소
-		int article2__id = 0;
-		String article2__title = "";
-		String article2__body = "";
-
+		Article article2 = new Article();
+		
 		while (true) {
 			System.out.printf("명령어 입력 :");
 			String command = scanner.nextLine();
@@ -40,13 +38,13 @@ public class Main {
 				System.out.printf("%d번 게시물이 등록 되었습니다\n", id);
 
 				if (id == 1) {
-					article1__id = id;
-					article1__title = title;
-					article1__body = body;
+					article1.id = id;
+					article1.title = title;
+					article1.body = body;
 				} else if (id == 2) {
-					article2__id = id;
-					article2__title = title;
-					article2__body = body;
+					article2.id = id;
+					article2.title = title;
+					article2.body = body;
 				}
 
 				lastArticleid = id;
@@ -60,10 +58,10 @@ public class Main {
 				}
 				if (lastArticleid >= 1) {
 					System.out.println("번호 / 제목");
-					System.out.printf("%d / %s\n", article1__id, article1__title);
+					System.out.printf("%d / %s\n", article1.id, article1.title);
 				}
 				if (lastArticleid >= 2) {
-					System.out.printf("%d / %s\n", article2__id, article2__title);
+					System.out.printf("%d / %s\n", article2.id, article2.title);
 				}
 
 			} else if (command.startsWith("article detail ")) {
@@ -72,21 +70,21 @@ public class Main {
 				System.out.println("== 게시물 상세 ==");
 
 				if (inputedid == 1) {
-					if (article1__id == 0) {
+					if (article1.id == 0) {
 						System.out.printf("%d번 게시물은 존재하지 않습니다.\n", inputedid);
 						continue;
 					}
-					System.out.printf("번호 :%s\n", article1__id);
-					System.out.printf("제목 :%s\n", article1__title);
-					System.out.printf("내용 :%s\n", article1__body);
+					System.out.printf("번호 :%s\n", article1.id);
+					System.out.printf("제목 :%s\n", article1.title);
+					System.out.printf("내용 :%s\n", article1.body);
 				} else if (inputedid == 2) {
-					if (article2__id == 0) {
+					if (article2.id == 0) {
 						System.out.printf("%d번 게시물은 존재하지 않습니다.\n", inputedid);
 						continue;
 					}
-					System.out.printf("번호 :%s\n", article2__id);
-					System.out.printf("제목 :%s\n", article2__title);
-					System.out.printf("내용 :%s\n", article2__body);
+					System.out.printf("번호 :%s\n", article2.id);
+					System.out.printf("제목 :%s\n", article2.title);
+					System.out.printf("내용 :%s\n", article2.body);
 				} else {
 					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", inputedid);
 				}
