@@ -66,28 +66,30 @@ public class Main {
 					System.out.printf("%d / %s\n", article2__id, article2__title);
 				}
 
-			} else if (command.equals("article detail 1")) {
-				int inputedid =1;
-				System.out.println("== 게시물 상세 ==");
-				
-				if (article1__id == 0) {
-					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", inputedid);
-					continue;
-				}
-				System.out.printf("번호 :%d\n", article1__id);
-				System.out.printf("제목 :%s\n", article1__title);
-				System.out.printf("내용 :%s\n", article1__body);
+			} else if (command.startsWith("article detail ")) {
+				int inputedid = Integer.parseInt(command.split(" ")[2]);
 
-			} else if (command.equals("article detail 2")) {
-				int inputedid = 2;
 				System.out.println("== 게시물 상세 ==");
-				if (article2__id == 0) {
+
+				if (inputedid == 1) {
+					if (article1__id == 0) {
+						System.out.printf("%d번 게시물은 존재하지 않습니다.\n", inputedid);
+						continue;
+					}
+					System.out.printf("번호 :%s\n", article1__id);
+					System.out.printf("제목 :%s\n", article1__title);
+					System.out.printf("내용 :%s\n", article1__body);
+				} else if (inputedid == 2) {
+					if (article2__id == 0) {
+						System.out.printf("%d번 게시물은 존재하지 않습니다.\n", inputedid);
+						continue;
+					}
+					System.out.printf("번호 :%s\n", article2__id);
+					System.out.printf("제목 :%s\n", article2__title);
+					System.out.printf("내용 :%s\n", article2__body);
+				} else {
 					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", inputedid);
-					continue;
 				}
-				System.out.printf("번호 :%d\n", article2__id);
-				System.out.printf("제목 :%s\n", article2__title);
-				System.out.printf("내용 :%s\n", article2__body);
 
 			} else if (command.equals("article exit")) {
 				System.out.println("== 프로그램 종료 ==");
