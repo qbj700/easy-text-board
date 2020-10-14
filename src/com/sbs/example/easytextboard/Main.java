@@ -12,7 +12,6 @@ public class Main {
 		int article1__id = 0;
 		String article1__title = "";
 		String article1__body = "";
-
 		// 2번 게시물 저장소
 		int article2__id = 0;
 		String article2__title = "";
@@ -23,16 +22,22 @@ public class Main {
 			String command = scanner.nextLine();
 			// System.out.println(command);
 
-			int id = lastArticleid + 1;
-			String title;
-			String body;
-
 			if (command.equals("article add")) {
 				System.out.println("== 게시물 등록 ==");
-				System.out.printf("제목 :");
+
+				int id = lastArticleid + 1;
+				String title;
+				String body;
+
+				System.out.printf(" 제목 :");
 				title = scanner.nextLine();
-				System.out.printf("내용 :");
+				System.out.printf(" 내용 :");
 				body = scanner.nextLine();
+
+				System.out.println("== 게시물 등록 결과 ==");
+				System.out.printf("제목 :%s\n", title);
+				System.out.printf("내용 :%s\n", body);
+				System.out.printf("%d번 게시물이 등록 되었습니다\n", id);
 
 				if (id == 1) {
 					article1__id = id;
@@ -44,16 +49,11 @@ public class Main {
 					article2__body = body;
 				}
 
-				System.out.println("== 게시물 등록 결과 ==");
-				System.out.printf("제목 : %s\n", title);
-				System.out.printf("내용 : %s\n", body);
-				System.out.printf("%s번 게시물이 생성되었습니다\n", id);
-
-				// 가장 마지막 게시물 번호를 갱신
 				lastArticleid = id;
-				
+
 			} else if (command.equals("article list")) {
 				System.out.println("== 게시물 리스트 ==");
+
 				if (lastArticleid == 0) {
 					System.out.println("게시물이 없습니다.");
 					continue;
@@ -65,7 +65,31 @@ public class Main {
 				if (lastArticleid >= 2) {
 					System.out.printf("%d / %s\n", article2__id, article2__title);
 				}
-			} else if (command.equals("system exit")) {
+
+			} else if (command.equals("article detail 1")) {
+				int inputedid =1;
+				System.out.println("== 게시물 상세 ==");
+				
+				if (article1__id == 0) {
+					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", inputedid);
+					continue;
+				}
+				System.out.printf("번호 :%d\n", article1__id);
+				System.out.printf("제목 :%s\n", article1__title);
+				System.out.printf("내용 :%s\n", article1__body);
+
+			} else if (command.equals("article detail 2")) {
+				int inputedid = 2;
+				System.out.println("== 게시물 상세 ==");
+				if (article2__id == 0) {
+					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", inputedid);
+					continue;
+				}
+				System.out.printf("번호 :%d\n", article2__id);
+				System.out.printf("제목 :%s\n", article2__title);
+				System.out.printf("내용 :%s\n", article2__body);
+
+			} else if (command.equals("article exit")) {
 				System.out.println("== 프로그램 종료 ==");
 				break;
 			} else {
@@ -73,5 +97,6 @@ public class Main {
 			}
 		}
 		scanner.close();
+
 	}
 }
