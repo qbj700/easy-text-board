@@ -3,17 +3,25 @@ package com.sbs.example.easytextboard;
 import java.util.Scanner;
 
 public class App {
+	// 1번 게시물 저장소
+	Article article1 = new Article();
+
+	// 2번 게시물 저장소
+	Article article2 = new Article();
+
+	public Article getArticle(int id) {
+		if (id == 1) {
+			return article1;
+		} else if (id == 2) {
+			return article2;
+		}
+		return null;
+	}
 
 	public void run() {
 		Scanner scanner = new Scanner(System.in);
 
 		int lastArticleid = 0;
-
-		// 1번 게시물 저장소
-		Article article1 = new Article();
-
-		// 2번 게시물 저장소
-		Article article2 = new Article();
 
 		while (true) {
 			System.out.printf("명령어 입력 :");
@@ -27,9 +35,9 @@ public class App {
 				String title;
 				String body;
 
-				System.out.printf(" 제목 :");
+				System.out.printf("제목 :");
 				title = scanner.nextLine();
-				System.out.printf(" 내용 :");
+				System.out.printf("내용 :");
 				body = scanner.nextLine();
 
 				System.out.println("== 게시물 등록 결과 ==");
@@ -68,26 +76,16 @@ public class App {
 				int inputedid = Integer.parseInt(command.split(" ")[2]);
 
 				System.out.println("== 게시물 상세 ==");
-
-				if (inputedid == 1) {
-					if (article1.id == 0) {
-						System.out.printf("%d번 게시물은 존재하지 않습니다.\n", inputedid);
-						continue;
-					}
-					System.out.printf("번호 : %d\n", article1.id);
-					System.out.printf("제목 : %s\n", article1.title);
-					System.out.printf("내용 : %s\n", article1.body);
-				} else if (inputedid == 2) {
-					if (article2.id == 0) {
-						System.out.printf("%d번 게시물은 존재하지 않습니다.\n", inputedid);
-						continue;
-					}
-					System.out.printf("번호 : %d\n", article2.id);
-					System.out.printf("제목 : %s\n", article2.title);
-					System.out.printf("내용 : %s\n", article2.body);
-				} else {
+				
+				Article selectedArticle = getArticle(inputedid);
+				
+				if (selectedArticle == null || selectedArticle.id == 0) {
 					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", inputedid);
+					continue;
 				}
+				System.out.printf("번호 : %d\n", selectedArticle.id);
+				System.out.printf("제목 : %s\n", selectedArticle.title);
+				System.out.printf("내용 : %s\n", selectedArticle.body);
 
 			} else if (command.equals("article exit")) {
 				System.out.println("== 프로그램 종료 ==");
@@ -97,7 +95,7 @@ public class App {
 			}
 		}
 		scanner.close();
-		
+
 	}
 
 }
