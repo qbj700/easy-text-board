@@ -11,15 +11,14 @@ public class App {
 	int articlesSize() {
 		return articlesSize;
 	}
-	
+
 	Article getArticle(int id) {
-		if (id < 1) {
+		int index = getIndexById(id);
+
+		if (index == -1) {
 			return null;
 		}
-		if (id > lastArticleId) {
-			return null;
-		}
-		return articles[id - 1];
+		return articles[index];
 	}
 
 	public void run() {
@@ -59,11 +58,11 @@ public class App {
 				article.body = body;
 
 				System.out.printf("%d번 게시물이 등록되었습니다.\n", id);
-				
+
 				articles[articlesSize] = article;
-				
+
 				articlesSize++;
-				
+
 			} else if (command.equals("article list")) {
 				System.out.println("== 게시물 리스트 ==");
 
@@ -73,25 +72,40 @@ public class App {
 				}
 				System.out.println("번호 / 제목");
 
-				for (int i = 1; i <= lastArticleId; i++) {
-					Article article = getArticle(i);
+				for (int i = 0; i < articlesSize(); i++) {
+					Article article = articles[i];
 
 					System.out.printf("%d / %s\n", article.id, article.title);
 				}
 			} else if (command.startsWith("article detail ")) {
-				int inputedid = Integer.parseInt(command.split(" ")[2]);
+				int inputedId = Integer.parseInt(command.split(" ")[2]);
 				System.out.println("== 게시물 상세 ==");
 
-				Article article = getArticle(inputedid);
+				Article article = getArticle(inputedId);
 
 				if (article == null) {
-					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", inputedid);
+					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", inputedId);
 					continue;
 				}
 
 				System.out.printf("번호 : %d\n", article.id);
 				System.out.printf("제목 : %s\n", article.title);
 				System.out.printf("내용 : %s\n", article.body);
+
+			} else if (command.startsWith("article delete ")) {
+				int inputedId = Integer.parseInt(command.split(" ")[2]);
+				System.out.println("== 게시물 삭제 ==");
+
+				Article article = getArticle(inputedId);
+
+				if (article == null) {
+					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", inputedId);
+					continue;
+				}
+
+				remove(inputedId);
+
+				System.out.printf("%d번 게시물이 삭제되었습니다.\n", inputedId);
 
 			} else if (command.equals("system exit")) {
 				System.out.println("== 프로그램 종료 ==");
@@ -101,5 +115,26 @@ public class App {
 			}
 		}
 		sc.close();
+	}
+
+	private void remove(int id) {
+		int index = getIndexById(id);
+
+		if (index == -1) {
+			return;
+		}
+		for (int i = index + 1; i < articlesSize(); i++) {
+			articles[i - 1] = articles[i];
+		}
+		articlesSize--;
+	}
+
+	private int getIndexById(int id) {
+		for (int i = 0; i < articlesSize(); i++) {
+			if (articles[i].id == id) {
+				return i;
+			}
+		}
+		return -1;
 	}
 }
