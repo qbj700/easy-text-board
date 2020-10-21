@@ -4,18 +4,17 @@ import java.util.Scanner;
 
 public class App {
 
-	Article[] articles = new Article[5];
-
-	int lastArticleId = 0;
-	int articlesSize = 0;
+	private Article[] articles = new Article[5];
+	private int lastArticleId = 0;
+	private int articlesSize = 0;
 
 	// 현재 게시물 갯수
-	int articlesSize() {
+	private int articlesSize() {
 		return articlesSize;
 	}
 
 	// 게시물에 배열 번호 부여
-	Article getArticle(int id) {
+	private Article getArticle(int id) {
 		int index = getIndexById(id);
 
 		if (index == -1) {
@@ -61,6 +60,13 @@ public class App {
 		lastArticleId = article.id;
 
 		return article.id;
+	}
+
+	// 게시물 수정 함수
+	private void modify(int inputedId, String title, String body) {
+		Article article = getArticle(inputedId);
+		article.title = title;
+		article.body = body;
 	}
 
 	public void run() {
@@ -148,9 +154,8 @@ public class App {
 					System.out.printf("수정할 내용 :");
 					String body = sc.nextLine();
 
-					article.id = inputedId;
-					article.title = title;
-					article.body = body;
+					modify(inputedId, title, body);
+
 					System.out.printf("%d번 게시물이 수정되었습니다.\n", inputedId);
 				}
 
