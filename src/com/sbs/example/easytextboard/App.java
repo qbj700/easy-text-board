@@ -9,10 +9,12 @@ public class App {
 	int lastArticleId = 0;
 	int articlesSize = 0;
 
+	// 현재 게시물 갯수
 	int articlesSize() {
 		return articlesSize;
 	}
 
+	// 게시물에 배열 번호 부여
 	Article getArticle(int id) {
 		int index = getIndexById(id);
 
@@ -22,6 +24,7 @@ public class App {
 		return articles[index];
 	}
 
+	// 입력된 id가 articles[].id 와 일치하는지 여부 확인
 	private int getIndexById(int id) {
 		for (int i = 0; i < articlesSize(); i++) {
 			if (articles[i].id == id) {
@@ -31,6 +34,7 @@ public class App {
 		return -1;
 	}
 
+	// 게시물 삭제 함수
 	private void remove(int id) {
 		int index = getIndexById(id);
 
@@ -42,7 +46,7 @@ public class App {
 		}
 		articlesSize--;
 	}
-	
+
 	public void run() {
 		Scanner sc = new Scanner(System.in);
 		int maxArticlesCount = articles.length;
@@ -138,11 +142,22 @@ public class App {
 					String title = sc.nextLine();
 					System.out.printf("수정할 내용 :");
 					String body = sc.nextLine();
-					
+
 					article.id = inputedId;
 					article.title = title;
 					article.body = body;
 					System.out.printf("%d번 게시물이 수정되었습니다.\n", inputedId);
+				}
+
+			} else if (command.startsWith("article search ")) {
+				String articleSearch = command.split(" ")[2];
+				System.out.println("== 게시물 검색 ==");
+				
+				System.out.println("번호 / 제목");
+				for (int i = 0; i < articlesSize; i++) {
+					if (articles[i].title.contains(articleSearch)) {
+						System.out.printf("%d / %s\n",i + 1 ,articles[i].title);
+					}
 				}
 
 			} else if (command.equals("system exit")) {
