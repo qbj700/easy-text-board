@@ -47,6 +47,22 @@ public class App {
 		articlesSize--;
 	}
 
+	// 게시물 생성 함수
+	private int add(String title, String body) {
+		Article article = new Article();
+
+		article.id = lastArticleId + 1;
+		article.title = title;
+		article.body = body;
+
+		articles[articlesSize] = article;
+
+		articlesSize++;
+		lastArticleId = article.id;
+
+		return article.id;
+	}
+
 	public void run() {
 		Scanner sc = new Scanner(System.in);
 		int maxArticlesCount = articles.length;
@@ -64,9 +80,6 @@ public class App {
 					continue;
 				}
 
-				int id = lastArticleId + 1;
-				lastArticleId = id;
-
 				System.out.printf("제목 :");
 				String title = sc.nextLine();
 				System.out.printf("내용 :");
@@ -76,17 +89,9 @@ public class App {
 				System.out.printf("제목 :%s\n", title);
 				System.out.printf("내용 :%s\n", body);
 
-				Article article = new Article();
-				article.id = id;
-				article.title = title;
-				article.body = body;
+				int id = add(title, body);
 
 				System.out.printf("%d번 게시물이 생성되었습니다.\n", id);
-
-				articles[articlesSize] = article;
-
-				articlesSize++;
-
 			} else if (command.equals("article list")) {
 				System.out.println("== 게시물 리스트 ==");
 
@@ -152,11 +157,11 @@ public class App {
 			} else if (command.startsWith("article search ")) {
 				String articleSearch = command.split(" ")[2];
 				System.out.println("== 게시물 검색 ==");
-				
+
 				System.out.println("번호 / 제목");
 				for (int i = 0; i < articlesSize; i++) {
 					if (articles[i].title.contains(articleSearch)) {
-						System.out.printf("%d / %s\n",i + 1 ,articles[i].title);
+						System.out.printf("%d / %s\n", i + 1, articles[i].title);
 					}
 				}
 
