@@ -8,7 +8,7 @@ public class App {
 	private int lastArticleId;
 	private int articlesSize;
 
-	public void init() {
+	public App() {
 		articles = new Article[32];
 		lastArticleId = 0;
 		articlesSize = 0;
