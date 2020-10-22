@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class App {
 
-	private Article[] articles = new Article[5];
+	private Article[] articles = new Article[3];
 	private int lastArticleId = 0;
 	private int articlesSize = 0;
 
@@ -48,6 +48,17 @@ public class App {
 
 	// 게시물 생성 함수
 	private int add(String title, String body) {
+		if (isArticlesFull()) {
+			System.out.printf("== 배열 사이즈 증가 (%d => %d) ==\n", articles.length, articles.length * 2);
+			
+			Article[] newArticles = new Article[articles.length*2];
+			
+			for (int i = 0; i < articles.length; i++) {
+				newArticles[i] = articles[i];
+			}
+			articles = newArticles;
+		}
+
 		Article article = new Article();
 
 		article.id = lastArticleId + 1;
@@ -69,9 +80,13 @@ public class App {
 		article.body = body;
 	}
 
+	// 게시물이 꽉 찻는지 확인하는 함수
+	private boolean isArticlesFull() {
+		return articlesSize == articles.length;
+	}
+
 	public void run() {
 		Scanner sc = new Scanner(System.in);
-		int maxArticlesCount = articles.length;
 
 		while (true) {
 
@@ -80,11 +95,6 @@ public class App {
 
 			if (command.equals("article add")) {
 				System.out.println("== 게시물 등록 ==");
-
-				if (articlesSize() >= maxArticlesCount) {
-					System.out.println("더 이상 등록할 수 없습니다.");
-					continue;
-				}
 
 				System.out.printf("제목 :");
 				String title = sc.nextLine();
@@ -106,7 +116,7 @@ public class App {
 					continue;
 				}
 				System.out.println("번호 / 제목");
-				for (int i = articlesSize() -1; i >= 0; i--) {
+				for (int i = articlesSize() - 1; i >= 0; i--) {
 					Article article = articles[i];
 					System.out.printf("%d / %s\n", article.id, article.title);
 				}
