@@ -206,7 +206,6 @@ public class App {
 			} else if (command.startsWith("article search ")) {
 
 				String[] commandBits = command.split(" ");
-
 				String searchKeyword = commandBits[2];
 
 				int page = 1;
@@ -223,19 +222,13 @@ public class App {
 
 				int searchResultArticlesLen = 0;
 
-				// 검색된 결과의 수 구하기
-				// 향상된 for문 사용
 				for (Article article : articles) {
 					if (article.title.contains(searchKeyword)) {
 						searchResultArticlesLen++;
 					}
 				}
-				
-
-				// 검색된 결과의 수 만큼의 길이의 배열 생성
 				Article[] searchResultArticles = new Article[searchResultArticlesLen];
 
-				// 검색 결과를 새로운 배열에 담기 
 				int searchResultArticlesIndex = 0;
 				for (Article article : articles) {
 					if (article.title.contains(searchKeyword)) {
@@ -245,10 +238,9 @@ public class App {
 				}
 
 				if (searchResultArticles.length == 0) {
-					System.out.println("게시물이 존재하지 않습니다.");
+					System.out.println("검색결과가 존재하지 않습니다.");
 					continue;
 				}
-
 				System.out.println("번호 / 제목");
 
 				int itemsInAPage = 10;
