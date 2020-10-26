@@ -121,7 +121,13 @@ public class App {
 				System.out.printf("%d번 게시물이 생성되었습니다.\n", id);
 
 			} else if (command.startsWith("article list ")) {
-				int page = Integer.parseInt(command.split(" ")[2]);
+				int page = 0;
+				try {
+					page = Integer.parseInt(command.split(" ")[2]);
+				} catch (NumberFormatException e) {
+					System.out.println("페이지 번호를 양의 정수로 입력해주세요.");
+					continue;
+				}
 
 				if (page <= 1) {
 					page = 1;
@@ -156,7 +162,14 @@ public class App {
 				}
 
 			} else if (command.startsWith("article detail ")) {
-				int inputedId = Integer.parseInt(command.split(" ")[2]);
+				int inputedId = 0;
+				try {
+					inputedId = Integer.parseInt(command.split(" ")[2]);
+				} catch (NumberFormatException e) {
+					System.out.println("게시물 번호를 양의 정수로 입력해주세요.");
+					continue;
+				}
+
 				System.out.println("== 게시물 상세 ==");
 
 				Article article = getArticle(inputedId);
@@ -171,7 +184,14 @@ public class App {
 				System.out.printf("내용 : %s\n", article.body);
 
 			} else if (command.startsWith("article delete ")) {
-				int inputedId = Integer.parseInt(command.split(" ")[2]);
+				int inputedId = 0;
+				try {
+					inputedId = Integer.parseInt(command.split(" ")[2]);
+				} catch (NumberFormatException e) {
+					System.out.println("게시물 번호를 양의 정수로 입력해주세요.");
+					continue;
+				}
+
 				System.out.println("== 게시물 삭제 ==");
 
 				Article article = getArticle(inputedId);
@@ -184,7 +204,14 @@ public class App {
 				System.out.printf("%d번 게시물이 삭제되었습니다.\n", inputedId);
 
 			} else if (command.startsWith("article modify ")) {
-				int inputedId = Integer.parseInt(command.split(" ")[2]);
+				int inputedId = 0;
+				try {
+					inputedId = Integer.parseInt(command.split(" ")[2]);
+				} catch (NumberFormatException e) {
+					System.out.println("게시물 번호를 양의 정수로 입력해주세요.");
+					continue;
+				}
+
 				System.out.println("== 게시물 수정 ==");
 
 				Article article = getArticle(inputedId);
@@ -210,6 +237,13 @@ public class App {
 
 				int page = 1;
 
+				try {
+					page = Integer.parseInt(commandBits[3]);
+				} catch (NumberFormatException e) {
+					System.out.println("페이지 번호를 양의 정수로 입력해주세요.");
+					continue;
+				}
+
 				if (commandBits.length >= 4) {
 					page = Integer.parseInt(commandBits[3]);
 				}
@@ -223,6 +257,10 @@ public class App {
 				int searchResultArticlesLen = 0;
 
 				for (Article article : articles) {
+					if (article == null) {
+						break;
+					}
+
 					if (article.title.contains(searchKeyword)) {
 						searchResultArticlesLen++;
 					}
@@ -231,6 +269,10 @@ public class App {
 
 				int searchResultArticlesIndex = 0;
 				for (Article article : articles) {
+					if (article == null) {
+						break;
+					}
+
 					if (article.title.contains(searchKeyword)) {
 						searchResultArticles[searchResultArticlesIndex] = article;
 						searchResultArticlesIndex++;
