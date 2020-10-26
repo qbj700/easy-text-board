@@ -151,7 +151,7 @@ public class App {
 
 				for (int i = startPos; i >= endPos; i--) {
 					Article article = articles[i];
-					
+
 					System.out.printf("%d / %s\n", article.id, article.title);
 				}
 
@@ -204,14 +204,71 @@ public class App {
 				}
 
 			} else if (command.startsWith("article search ")) {
-				String articleSearch = command.split(" ")[2];
+
+				String[] commandBits = command.split(" ");
+
+				String searchKeyword = commandBits[2];
+
+				int page = 1;
+
+				if (commandBits.length >= 4) {
+					page = Integer.parseInt(commandBits[3]);
+				}
+
+				if (page <= 1) {
+					page = 1;
+				}
+
 				System.out.println("== 게시물 검색 ==");
 
-				System.out.println("번호 / 제목");
-				for (int i = 0; i < articlesSize; i++) {
-					if (articles[i].title.contains(articleSearch)) {
-						System.out.printf("%d / %s\n", i + 1, articles[i].title);
+				int searchResultArticlesLen = 0;
+
+				// 검색된 결과의 수 구하기
+				// 향상된 for문 사용
+				for (Article article : articles) {
+					if (article.title.contains(searchKeyword)) {
+						searchResultArticlesLen++;
 					}
+				}
+				
+
+				// 검색된 결과의 수 만큼의 길이의 배열 생성
+				Article[] searchResultArticles = new Article[searchResultArticlesLen];
+
+				// 검색 결과를 새로운 배열에 담기 
+				int searchResultArticlesIndex = 0;
+				for (Article article : articles) {
+					if (article.title.contains(searchKeyword)) {
+						searchResultArticles[searchResultArticlesIndex] = article;
+						searchResultArticlesIndex++;
+					}
+				}
+
+				if (searchResultArticles.length == 0) {
+					System.out.println("게시물이 존재하지 않습니다.");
+					continue;
+				}
+
+				System.out.println("번호 / 제목");
+
+				int itemsInAPage = 10;
+				int startPos = searchResultArticles.length - 1;
+				startPos -= (page - 1) * itemsInAPage;
+				int endPos = startPos - (itemsInAPage - 1);
+
+				if (endPos < 0) {
+					endPos = 0;
+				}
+
+				if (startPos < 0) {
+					System.out.printf("%d페이지는 존재하지 않습니다.\n", page);
+					continue;
+				}
+
+				for (int i = startPos; i >= endPos; i--) {
+					Article article = searchResultArticles[i];
+
+					System.out.printf("%d / %s\n", article.id, article.title);
 				}
 
 			} else if (command.equals("system exit")) {
