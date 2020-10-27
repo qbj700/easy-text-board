@@ -57,11 +57,7 @@ public class App {
 	// 게시물 생성 함수
 	private int add(String title, String body) {
 
-		Article article = new Article();
-
-		article.id = lastArticleId + 1;
-		article.title = title;
-		article.body = body;
+		Article article = new Article(lastArticleId + 1, title, body);
 
 		articles.add(article);
 		lastArticleId = article.id;
@@ -147,7 +143,7 @@ public class App {
 					System.out.println("게시물이 존재하지 않습니다.");
 					continue;
 				}
-				System.out.println("번호 / 제목");
+				System.out.println("번호 / 제목 / 시간");
 
 				int itemsInAPage = 10;
 				int startPos = articles.size() - 1;
@@ -166,7 +162,7 @@ public class App {
 				for (int i = startPos; i >= endPos; i--) {
 					Article article = articles.get(i);
 
-					System.out.printf("%d / %s\n", article.id, article.title);
+					System.out.printf("%d / %s / %s\n", article.id, article.title, article.regDate);
 				}
 
 			} else if (command.startsWith("article detail ")) {
