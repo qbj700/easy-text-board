@@ -1,4 +1,4 @@
-package com.sbs.example.easytextboard;
+package com.sbs.example.easytextboard.dto;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

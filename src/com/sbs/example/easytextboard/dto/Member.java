@@ -1,4 +1,4 @@
-package com.sbs.example.easytextboard;
+package com.sbs.example.easytextboard.dto;
 
 public class Member {
 	public int count;
