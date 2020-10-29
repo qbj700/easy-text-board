@@ -1,8 +1,8 @@
 package com.sbs.example.easytextboard.dto;
 
 public class Member {
-	public int count;
+	public int memberId;
 	public String name;
-	public String id;
-	public String pw;
+	public String loginId;
+	public String loginPw;
 }
