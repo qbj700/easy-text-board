@@ -55,7 +55,8 @@ public class ArticleController {
 	// 게시물 생성 함수
 	private int add(String title, String body) {
 
-		Article article = new Article(lastArticleId + 1, title, body, Container.session.loginedMemberId);
+		Article article = new Article(lastArticleId + 1, title, body, Container.session.loginedMemberId,
+				Container.session.loginedMemberName);
 
 		articles.add(article);
 		lastArticleId = article.id;
@@ -132,7 +133,7 @@ public class ArticleController {
 			for (int i = startPos; i >= endPos; i--) {
 				Article article = articles.get(i);
 
-				System.out.printf("%d / %s / %d번 회원\n", article.id, article.title, article.loginMemberId);
+				System.out.printf("%d / %s / %s\n", article.id, article.title, article.loginMemberName);
 			}
 
 		} else if (command.startsWith("article detail ")) {
@@ -153,7 +154,8 @@ public class ArticleController {
 				return;
 			}
 			System.out.printf("작성 시간 : %s\n", article.regDate);
-			System.out.printf("작성자 : %d번 회원\n", article.loginMemberId);
+			System.out.printf("작성 회원 번호 : %d번 회원\n", article.loginMemberId);
+			System.out.printf("작성자 : %s\n", article.loginMemberName);
 			System.out.printf("번호 : %d\n", article.id);
 			System.out.printf("제목 : %s\n", article.title);
 			System.out.printf("내용 : %s\n", article.body);

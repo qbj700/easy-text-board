@@ -206,6 +206,7 @@ public class MemberController extends Controller {
 			System.out.printf("로그인 되었습니다. %s님 환영합니다.\n", member.name);
 
 			Container.session.loginedMemberId = member.memberId;
+			Container.session.loginedMemberName = member.name;
 
 		} else if (command.equals("member whoami")) {
 			if (Container.session.isLogout()) {
