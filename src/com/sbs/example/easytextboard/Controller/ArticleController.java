@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.sbs.example.easytextboard.container.Container;
 import com.sbs.example.easytextboard.dto.Article;
 
 public class ArticleController {
@@ -71,6 +72,12 @@ public class ArticleController {
 
 	public void run(Scanner sc, String command) {
 		if (command.equals("article add")) {
+
+			if (Container.session.isLogout()) {
+				System.out.println("로그인 후 이용해 주세요.");
+				return;
+			}
+
 			System.out.println("== 게시물 등록 ==");
 
 			System.out.printf("제목 :");
@@ -105,7 +112,7 @@ public class ArticleController {
 				System.out.println("게시물이 존재하지 않습니다.");
 				return;
 			}
-			System.out.println("번호 / 제목 / 시간");
+			System.out.println("번호 / 제목");
 
 			int itemsInAPage = 10;
 			int startPos = articles.size() - 1;
@@ -124,7 +131,7 @@ public class ArticleController {
 			for (int i = startPos; i >= endPos; i--) {
 				Article article = articles.get(i);
 
-				System.out.printf("%d / %s / %s\n", article.id, article.title, article.regDate);
+				System.out.printf("%d / %s\n", article.id, article.title);
 			}
 
 		} else if (command.startsWith("article detail ")) {
@@ -144,12 +151,18 @@ public class ArticleController {
 				System.out.printf("%d번 게시물은 존재하지 않습니다.\n", inputedId);
 				return;
 			}
-
+			System.out.printf("작성 시간 : %s\n", article.regDate);
 			System.out.printf("번호 : %d\n", article.id);
 			System.out.printf("제목 : %s\n", article.title);
 			System.out.printf("내용 : %s\n", article.body);
 
 		} else if (command.startsWith("article delete ")) {
+
+			if (Container.session.isLogout()) {
+				System.out.println("로그인 후 이용해 주세요.");
+				return;
+			}
+
 			int inputedId = 0;
 			try {
 				inputedId = Integer.parseInt(command.split(" ")[2]);
@@ -170,6 +183,12 @@ public class ArticleController {
 			System.out.printf("%d번 게시물이 삭제되었습니다.\n", inputedId);
 
 		} else if (command.startsWith("article modify ")) {
+
+			if (Container.session.isLogout()) {
+				System.out.println("로그인 후 이용해 주세요.");
+				return;
+			}
+
 			int inputedId = 0;
 			try {
 				inputedId = Integer.parseInt(command.split(" ")[2]);
