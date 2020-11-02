@@ -158,7 +158,7 @@ public class MemberController extends Controller {
 				member = getMemberByLoginId(loginId);
 
 				if (member == null) {
-					System.out.printf("존재하지 않는 로그인아이디 입니다.");
+					System.out.println("존재하지 않는 로그인아이디 입니다.");
 					loginIdCount++;
 					continue;
 				}

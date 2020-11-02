@@ -55,7 +55,7 @@ public class ArticleController {
 	// 게시물 생성 함수
 	private int add(String title, String body) {
 
-		Article article = new Article(lastArticleId + 1, title, body);
+		Article article = new Article(lastArticleId + 1, title, body, Container.session.loginedMemberId);
 
 		articles.add(article);
 		lastArticleId = article.id;
@@ -66,6 +66,7 @@ public class ArticleController {
 	// 게시물 수정 함수
 	private void modify(int inputedId, String title, String body) {
 		Article article = getArticle(inputedId);
+
 		article.title = title;
 		article.body = body;
 	}
@@ -112,7 +113,7 @@ public class ArticleController {
 				System.out.println("게시물이 존재하지 않습니다.");
 				return;
 			}
-			System.out.println("번호 / 제목");
+			System.out.println("번호 / 제목 / 작성자");
 
 			int itemsInAPage = 10;
 			int startPos = articles.size() - 1;
@@ -131,7 +132,7 @@ public class ArticleController {
 			for (int i = startPos; i >= endPos; i--) {
 				Article article = articles.get(i);
 
-				System.out.printf("%d / %s\n", article.id, article.title);
+				System.out.printf("%d / %s / %d번 회원\n", article.id, article.title, article.loginMemberId);
 			}
 
 		} else if (command.startsWith("article detail ")) {
@@ -152,6 +153,7 @@ public class ArticleController {
 				return;
 			}
 			System.out.printf("작성 시간 : %s\n", article.regDate);
+			System.out.printf("작성자 : %d번 회원\n", article.loginMemberId);
 			System.out.printf("번호 : %d\n", article.id);
 			System.out.printf("제목 : %s\n", article.title);
 			System.out.printf("내용 : %s\n", article.body);
@@ -179,6 +181,12 @@ public class ArticleController {
 				System.out.printf("%d번 게시물은 존재하지 않습니다.\n", inputedId);
 				return;
 			}
+
+			if (article.loginMemberId != Container.session.loginedMemberId) {
+				System.out.println("작성자만 삭제 가능합니다.");
+				return;
+			}
+
 			remove(inputedId);
 			System.out.printf("%d번 게시물이 삭제되었습니다.\n", inputedId);
 
@@ -196,13 +204,15 @@ public class ArticleController {
 				System.out.println("게시물 번호를 양의 정수로 입력해주세요.");
 				return;
 			}
+			Article article = getArticle(inputedId);
 
 			System.out.println("== 게시물 수정 ==");
 
-			Article article = getArticle(inputedId);
-
 			if (article == null) {
 				System.out.printf("%d번 게시물은 존재하지 않습니다.\n", inputedId);
+				return;
+			} else if (article.loginMemberId != Container.session.loginedMemberId) {
+				System.out.println("작성자만 수정 가능합니다.");
 				return;
 			} else {
 				System.out.printf("수정할 제목 :");
