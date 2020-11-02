@@ -1,61 +1,11 @@
-package com.sbs.example.easytextboard.Controller;
+package com.sbs.example.easytextboard.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import com.sbs.example.easytextboard.container.Container;
 import com.sbs.example.easytextboard.dto.Member;
 
 public class MemberController extends Controller {
-
-	private List<Member> members;
-	private int lastMemberId;
-
-	public MemberController() {
-		lastMemberId = 0;
-		members = new ArrayList<>();
-
-		for (int i = 1; i <= 3; i++) {
-			join("user" + i, "user" + i, "유저" + i);
-		}
-
-	}
-
-	// 회원 가입 함수
-	private int join(String loginId, String loginPw, String name) {
-
-		Member member = new Member();
-		member.memberId = lastMemberId + 1;
-		member.name = name;
-		member.loginId = loginId;
-		member.loginPw = loginPw;
-
-		members.add(member);
-		lastMemberId = member.memberId;
-
-		return member.memberId;
-	}
-
-	// 로그인아이디 유효성 테스트 함수
-	private boolean isJoinableLoginId(String loginId) {
-		for (Member member : members) {
-			if (member.loginId.equals(loginId)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	// 로그인 정보 확인 함수
-	private Member getMemberByLoginId(String loginId) {
-		for (Member member : members) {
-			if (member.loginId.equals(loginId)) {
-				return member;
-			}
-		}
-		return null;
-	}
 
 	public void run(Scanner sc, String command) {
 
@@ -83,7 +33,7 @@ public class MemberController extends Controller {
 					loginIdCount++;
 					continue;
 
-				} else if (isJoinableLoginId(loginId) == false) {
+				} else if (Container.memberService.isJoinableLoginId(loginId) == false) {
 					System.out.printf("%s는 이미 사용중인 아이디 입니다.\n", loginId);
 					loginIdCount++;
 					continue;
@@ -119,7 +69,7 @@ public class MemberController extends Controller {
 				break;
 			}
 
-			int id = join(loginId, loginPw, name);
+			int id = Container.memberService.join(loginId, loginPw, name);
 
 			System.out.printf("%d번 회원이 생성되었습니다.\n", id);
 
@@ -155,7 +105,7 @@ public class MemberController extends Controller {
 
 				}
 
-				member = getMemberByLoginId(loginId);
+				member = Container.memberService.getMemberByLoginId(loginId);
 
 				if (member == null) {
 					System.out.println("존재하지 않는 로그인아이디 입니다.");

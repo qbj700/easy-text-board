@@ -2,8 +2,8 @@ package com.sbs.example.easytextboard;
 
 import java.util.Scanner;
 
-import com.sbs.example.easytextboard.Controller.ArticleController;
-import com.sbs.example.easytextboard.Controller.MemberController;
+import com.sbs.example.easytextboard.controller.ArticleController;
+import com.sbs.example.easytextboard.controller.MemberController;
 
 public class App {
 

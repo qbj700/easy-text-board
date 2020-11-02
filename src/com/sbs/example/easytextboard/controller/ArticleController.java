@@ -1,4 +1,4 @@
-package com.sbs.example.easytextboard.Controller;
+package com.sbs.example.easytextboard.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,70 +6,13 @@ import java.util.Scanner;
 
 import com.sbs.example.easytextboard.container.Container;
 import com.sbs.example.easytextboard.dto.Article;
+import com.sbs.example.easytextboard.service.ArticleService;
 
 public class ArticleController {
-
-	private List<Article> articles;
-	private int lastArticleId;
+	private ArticleService articleService;
 
 	public ArticleController() {
-		lastArticleId = 0;
-		articles = new ArrayList<>();
-
-		for (int i = 0; i < 32; i++) {
-			add("제목" + (i + 1), "내용" + (i + 1));
-		}
-
-	}
-
-	// 게시물에 배열 번호 부여
-	private Article getArticle(int id) {
-		int index = getIndexById(id);
-
-		if (index == -1) {
-			return null;
-		}
-		return articles.get(index);
-	}
-
-	// 입력된 id가 articles.get(i).id 와 일치하는지 여부 확인
-	private int getIndexById(int id) {
-		for (int i = 0; i < articles.size(); i++) {
-			if (articles.get(i).id == id) {
-				return i;
-			}
-		}
-		return -1;
-	}
-
-	// 게시물 삭제 함수
-	private void remove(int id) {
-		int index = getIndexById(id);
-
-		if (index == -1) {
-			return;
-		}
-		articles.remove(index);
-	}
-
-	// 게시물 생성 함수
-	private int add(String title, String body) {
-
-		Article article = new Article(lastArticleId + 1, title, body, Container.session.loginedMemberId,
-				Container.session.loginedMemberName);
-
-		articles.add(article);
-		lastArticleId = article.id;
-
-		return article.id;
-	}
-
-	// 게시물 수정 함수
-	private void modify(int inputedId, String title, String body) {
-		Article article = getArticle(inputedId);
-
-		article.title = title;
-		article.body = body;
+		articleService = Container.articleService;
 	}
 
 	public void run(Scanner sc, String command) {
@@ -91,7 +34,7 @@ public class ArticleController {
 			System.out.printf("제목 :%s\n", title);
 			System.out.printf("내용 :%s\n", body);
 
-			int id = add(title, body);
+			int id = Container.articleService.add(title, body, Container.session.loginedMemberId);
 
 			System.out.printf("%d번 게시물이 생성되었습니다.\n", id);
 
@@ -110,14 +53,14 @@ public class ArticleController {
 
 			System.out.println("== 게시물 리스트 ==");
 
-			if (articles.size() == 0) {
+			if (Container.articleService.getArticles().size() == 0) {
 				System.out.println("게시물이 존재하지 않습니다.");
 				return;
 			}
 			System.out.println("번호 / 제목 / 작성자");
 
 			int itemsInAPage = 10;
-			int startPos = articles.size() - 1;
+			int startPos = Container.articleService.getArticleSize() - 1;
 			startPos -= (page - 1) * itemsInAPage;
 			int endPos = startPos - (itemsInAPage - 1);
 
@@ -131,9 +74,9 @@ public class ArticleController {
 			}
 
 			for (int i = startPos; i >= endPos; i--) {
-				Article article = articles.get(i);
+				Article article = articleService.getArticleByIndex(i);
 
-				System.out.printf("%d / %s / %s\n", article.id, article.title, article.loginMemberName);
+				System.out.printf("%d / %s / %d번 회원\n", article.id, article.title, article.loginMemberId);
 			}
 
 		} else if (command.startsWith("article detail ")) {
@@ -147,7 +90,7 @@ public class ArticleController {
 
 			System.out.println("== 게시물 상세 ==");
 
-			Article article = getArticle(inputedId);
+			Article article = articleService.getArticle(inputedId);
 
 			if (article == null) {
 				System.out.printf("%d번 게시물은 존재하지 않습니다.\n", inputedId);
@@ -155,7 +98,6 @@ public class ArticleController {
 			}
 			System.out.printf("작성 시간 : %s\n", article.regDate);
 			System.out.printf("작성 회원 번호 : %d번 회원\n", article.loginMemberId);
-			System.out.printf("작성자 : %s\n", article.loginMemberName);
 			System.out.printf("번호 : %d\n", article.id);
 			System.out.printf("제목 : %s\n", article.title);
 			System.out.printf("내용 : %s\n", article.body);
@@ -177,7 +119,7 @@ public class ArticleController {
 
 			System.out.println("== 게시물 삭제 ==");
 
-			Article article = getArticle(inputedId);
+			Article article = articleService.getArticle(inputedId);
 
 			if (article == null) {
 				System.out.printf("%d번 게시물은 존재하지 않습니다.\n", inputedId);
@@ -189,7 +131,7 @@ public class ArticleController {
 				return;
 			}
 
-			remove(inputedId);
+			articleService.remove(inputedId);
 			System.out.printf("%d번 게시물이 삭제되었습니다.\n", inputedId);
 
 		} else if (command.startsWith("article modify ")) {
@@ -206,7 +148,7 @@ public class ArticleController {
 				System.out.println("게시물 번호를 양의 정수로 입력해주세요.");
 				return;
 			}
-			Article article = getArticle(inputedId);
+			Article article = articleService.getArticle(inputedId);
 
 			System.out.println("== 게시물 수정 ==");
 
@@ -222,7 +164,7 @@ public class ArticleController {
 				System.out.printf("수정할 내용 :");
 				String body = sc.nextLine();
 
-				modify(inputedId, title, body);
+				articleService.modify(inputedId, title, body);
 
 				System.out.printf("%d번 게시물이 수정되었습니다.\n", inputedId);
 			}
@@ -251,7 +193,7 @@ public class ArticleController {
 
 			List<Article> searchResultArticles = new ArrayList<>();
 
-			for (Article article : articles) {
+			for (Article article : articleService.getArticles()) {
 				if (article.title.contains(searchKeyword)) {
 					searchResultArticles.add(article);
 				}
