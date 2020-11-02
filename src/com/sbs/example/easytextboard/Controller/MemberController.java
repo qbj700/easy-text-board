@@ -214,6 +214,14 @@ public class MemberController extends Controller {
 			}
 			int loginedMemberId = Container.session.loginedMemberId;
 			System.out.printf("당신의 회원번호는 %d번 입니다.\n", loginedMemberId);
+		} else if (command.equals("member logout")) {
+			if (Container.session.isLogout()) {
+				System.out.println("현재 로그인된 아이디가 존재하지 않습니다.");
+				return;
+			}
+
+			Container.session.loginedMemberId = 0;
+			System.out.println("정상적으로 로그아웃 되었습니다.");
 		}
 	}
 }
