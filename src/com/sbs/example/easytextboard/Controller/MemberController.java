@@ -16,10 +16,14 @@ public class MemberController extends Controller {
 		lastMemberId = 0;
 		members = new ArrayList<>();
 
+		for (int i = 1; i <= 3; i++) {
+			join("user" + i, "user" + i, "유저" + i);
+		}
+
 	}
 
 	// 회원 가입 함수
-	private int join(String name, String loginId, String loginPw) {
+	private int join(String loginId, String loginPw, String name) {
 
 		Member member = new Member();
 		member.memberId = lastMemberId + 1;
@@ -41,6 +45,16 @@ public class MemberController extends Controller {
 			}
 		}
 		return true;
+	}
+
+	// 로그인 정보 확인 함수
+	private Member getMemberByLoginId(String loginId) {
+		for (Member member : members) {
+			if (member.loginId.equals(loginId)) {
+				return member;
+			}
+		}
+		return null;
 	}
 
 	public void run(Scanner sc, String command) {
@@ -105,7 +119,7 @@ public class MemberController extends Controller {
 				break;
 			}
 
-			int id = join(name, loginId, loginPw);
+			int id = join(loginId, loginPw, name);
 
 			System.out.printf("%d번 회원이 생성되었습니다.\n", id);
 
@@ -192,16 +206,14 @@ public class MemberController extends Controller {
 			System.out.printf("로그인 되었습니다. %s님 환영합니다.\n", member.name);
 
 			Container.session.loginedMemberId = member.memberId;
-		}
-	}
 
-	private Member getMemberByLoginId(String loginId) {
-		for (Member member : members) {
-			if (member.loginId.equals(loginId)) {
-				return member;
+		} else if (command.equals("member whoami")) {
+			if (Container.session.isLogout()) {
+				System.out.println("로그아웃 상태입니다.");
+				return;
 			}
+			int loginedMemberId = Container.session.loginedMemberId;
+			System.out.printf("당신의 회원번호는 %d번 입니다.\n", loginedMemberId);
 		}
-		return null;
 	}
-
 }
