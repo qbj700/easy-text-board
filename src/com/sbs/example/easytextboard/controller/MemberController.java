@@ -17,7 +17,38 @@ public class MemberController {
 			join(command);
 		} else if (command.equals("member login")) {
 			login(command);
+		} else if (command.equals("member whoami")) {
+			whoami(command);
+		} else if (command.equals("member logout")) {
+			logout(command);
 		}
+
+	}
+
+	private void logout(String command) {
+		if (Container.session.isLogout()) {
+			System.out.println("로그인 후 이용해 주세요");
+			return;
+		}
+
+		Container.session.logout();
+		System.out.println("정상적으로 로그아웃 되었습니다.");
+
+	}
+
+	private void whoami(String command) {
+		if (Container.session.isLogout()) {
+			System.out.println("로그인 후 이용해 주세요");
+			return;
+		}
+
+		int loginedMemberId = Container.session.loginedMemberId;
+
+		Member loginedMember = memberService.getMemberById(loginedMemberId);
+
+		System.out.println("== 로그인된 사용자 정보 ==");
+		System.out.printf("로그인 아이디 : %s\n", loginedMember.loginId);
+		System.out.printf("이름 : %s\n", loginedMember.name);
 
 	}
 
@@ -51,7 +82,7 @@ public class MemberController {
 			return;
 		}
 
-		Container.session.loginedMemberId = member.MemberId;
+		Container.session.login(member.memberId);
 		System.out.printf("로그인 성공, %s님 환영합니다.\n", member.name);
 
 	}
@@ -65,6 +96,13 @@ public class MemberController {
 
 		System.out.printf("로그인 아이디 : ");
 		loginId = Container.scanner.nextLine();
+
+		boolean isJoinableLoginId = memberService.isJoinableLoginId(loginId);
+
+		if (isJoinableLoginId == false) {
+			System.out.printf("%s(은)는 이미 사용중인 아이디 입니다.\n", loginId);
+			return;
+		}
 
 		System.out.printf("로그인 비밀번호 : ");
 		loginPw = Container.scanner.nextLine();

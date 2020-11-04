@@ -11,4 +11,12 @@ public class Session {
 	public boolean isLogout() {
 		return !isLogined();
 	}
+
+	public void login(int memberId) {
+		loginedMemberId = memberId;
+	}
+
+	public void logout() {
+		loginedMemberId = 0;
+	}
 }

@@ -15,11 +15,29 @@ public class ArticleController {
 	public void doCommand(String command) {
 		if (command.equals("article add")) {
 			add(command);
-		}
-		if (command.startsWith("article list ")) {
+		} else if (command.startsWith("article list ")) {
 			list(command);
+		} else if (command.startsWith("article detail ")) {
+			detail(command);
 		}
 
+	}
+
+	private void detail(String command) {
+		int inputedId = 0;
+		try {
+			inputedId = Integer.parseInt(command.split(" ")[2]);
+		} catch (NumberFormatException e) {
+			System.out.println("게시물 번호는 양의 정수를 입력해 주세요.");
+			return;
+		}
+
+		Article article = articleService.getArticle(inputedId);
+
+		System.out.println("== 게시물 상세 ==");
+		System.out.printf("번호 : %d\n", article.id);
+		System.out.printf("제목 : %s\n", article.title);
+		System.out.printf("내용 : %s\n", article.body);
 	}
 
 	private void list(String command) {

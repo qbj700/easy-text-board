@@ -21,20 +21,29 @@ public class MemberDao {
 
 	public int join(String loginId, String loginPw, String name) {
 		Member member = new Member();
-		member.MemberId = lastMemberId + 1;
+		member.memberId = lastMemberId + 1;
 		member.loginId = loginId;
 		member.loginPw = loginPw;
 		member.name = name;
 
 		members.add(member);
-		lastMemberId = member.MemberId;
+		lastMemberId = member.memberId;
 
-		return member.MemberId;
+		return member.memberId;
 	}
 
 	public Member getMemberByLoginId(String loginId) {
 		for (Member member : members) {
 			if (member.loginId.equals(loginId)) {
+				return member;
+			}
+		}
+		return null;
+	}
+
+	public Member getMemberById(int loginedMemberId) {
+		for (Member member : members) {
+			if (member.memberId == loginedMemberId) {
 				return member;
 			}
 		}

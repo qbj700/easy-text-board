@@ -35,4 +35,21 @@ public class ArticleDao {
 		return articles.get(i);
 	}
 
+	public Article getArticle(int inputedId) {
+		int index = getIndexById(inputedId);
+		if (index == -1) {
+			return null;
+		}
+		return articles.get(index);
+	}
+
+	private int getIndexById(int inputedId) {
+		for (int i = 0; i < articles.size(); i++) {
+			if (articles.get(i).id == inputedId) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
 }
