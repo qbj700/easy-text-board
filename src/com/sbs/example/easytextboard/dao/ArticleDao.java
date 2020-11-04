@@ -62,4 +62,17 @@ public class ArticleDao {
 		return -1;
 	}
 
+	public void remove(int inputedId) {
+		int index = getIndexById(inputedId);
+		articles.remove(index);
+	}
+
+	public Article modify(int inputedId, String title, String body) {
+		Article article = getArticle(inputedId);
+		article.title = title;
+		article.body = body;
+		return article;
+
+	}
+
 }

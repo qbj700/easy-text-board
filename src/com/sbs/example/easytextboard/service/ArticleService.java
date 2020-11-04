@@ -32,4 +32,15 @@ public class ArticleService {
 		return articleDao.getArticle(inputedId);
 	}
 
+	public void remove(int inputedId) {
+		articleDao.remove(inputedId);
+
+	}
+
+	public Article modify(int inputedId, String title, String body) {
+
+		return articleDao.modify(inputedId, title, body);
+
+	}
+
 }
