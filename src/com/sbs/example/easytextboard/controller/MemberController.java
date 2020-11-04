@@ -4,12 +4,12 @@ import com.sbs.example.easytextboard.container.Container;
 import com.sbs.example.easytextboard.dto.Member;
 import com.sbs.example.easytextboard.service.MemberService;
 
-public class MemberController {
+public class MemberController extends Controller {
 
 	private MemberService memberService;
 
 	public MemberController() {
-		memberService = new MemberService();
+		memberService = Container.memberService;
 	}
 
 	public void doCommand(String command) {

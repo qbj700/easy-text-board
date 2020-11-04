@@ -1,5 +1,6 @@
 package com.sbs.example.easytextboard.service;
 
+import com.sbs.example.easytextboard.container.Container;
 import com.sbs.example.easytextboard.dao.MemberDao;
 import com.sbs.example.easytextboard.dto.Member;
 
@@ -8,7 +9,7 @@ public class MemberService {
 	private MemberDao memberDao;
 
 	public MemberService() {
-		memberDao = new MemberDao();
+		memberDao = Container.memberDao;
 	}
 
 	public int join(String loginId, String loginPw, String name) {

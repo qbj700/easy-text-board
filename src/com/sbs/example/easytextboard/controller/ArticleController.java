@@ -6,14 +6,14 @@ import com.sbs.example.easytextboard.dto.Member;
 import com.sbs.example.easytextboard.service.ArticleService;
 import com.sbs.example.easytextboard.service.MemberService;
 
-public class ArticleController {
+public class ArticleController extends Controller {
 
 	private ArticleService articleService;
 	private MemberService memberService;
 
 	public ArticleController() {
-		articleService = new ArticleService();
-		memberService = new MemberService();
+		articleService = Container.articleService;
+		memberService = Container.memberService;
 	}
 
 	public void doCommand(String command) {

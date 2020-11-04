@@ -13,6 +13,15 @@ public class ArticleDao {
 	public ArticleDao() {
 		articles = new ArrayList<>();
 		lastArticleId = 0;
+
+		makeTestData();
+	}
+
+	private void makeTestData() {
+		for (int i = 1; i <= 20; i++) {
+			add("제목" + i, "내용" + i, i % 2 == 0 ? 1 : 2);
+		}
+
 	}
 
 	public int add(String title, String body, int loginedMemberId) {

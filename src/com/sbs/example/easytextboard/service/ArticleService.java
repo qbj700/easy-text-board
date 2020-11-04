@@ -2,6 +2,7 @@ package com.sbs.example.easytextboard.service;
 
 import java.util.List;
 
+import com.sbs.example.easytextboard.container.Container;
 import com.sbs.example.easytextboard.dao.ArticleDao;
 import com.sbs.example.easytextboard.dto.Article;
 
@@ -10,7 +11,7 @@ public class ArticleService {
 	private ArticleDao articleDao;
 
 	public ArticleService() {
-		articleDao = new ArticleDao();
+		articleDao = Container.articleDao;
 	}
 
 	public int add(String title, String body, int loginedMemberId) {
