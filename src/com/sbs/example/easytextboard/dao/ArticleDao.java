@@ -15,9 +15,10 @@ public class ArticleDao {
 		lastArticleId = 0;
 	}
 
-	public int add(String title, String body) {
+	public int add(String title, String body, int loginedMemberId) {
 		Article article = new Article();
 		article.id = lastArticleId + 1;
+		article.memberId = loginedMemberId;
 		article.title = title;
 		article.body = body;
 

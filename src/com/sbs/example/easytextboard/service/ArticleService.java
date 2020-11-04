@@ -13,8 +13,8 @@ public class ArticleService {
 		articleDao = new ArticleDao();
 	}
 
-	public int add(String title, String body) {
-		return articleDao.add(title, body);
+	public int add(String title, String body, int loginedMemberId) {
+		return articleDao.add(title, body, loginedMemberId);
 
 	}
 

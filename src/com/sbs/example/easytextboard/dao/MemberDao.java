@@ -14,6 +14,11 @@ public class MemberDao {
 		lastMemberId = 0;
 
 		// 테스트 아이디 3개 생성
+		makeTestData();
+
+	}
+
+	private void makeTestData() {
 		for (int i = 1; i <= 3; i++) {
 			join("user" + i, "user" + i, "user" + i);
 		}

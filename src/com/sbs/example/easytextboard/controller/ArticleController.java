@@ -2,14 +2,18 @@ package com.sbs.example.easytextboard.controller;
 
 import com.sbs.example.easytextboard.container.Container;
 import com.sbs.example.easytextboard.dto.Article;
+import com.sbs.example.easytextboard.dto.Member;
 import com.sbs.example.easytextboard.service.ArticleService;
+import com.sbs.example.easytextboard.service.MemberService;
 
 public class ArticleController {
 
 	private ArticleService articleService;
+	private MemberService memberService;
 
 	public ArticleController() {
 		articleService = new ArticleService();
+		memberService = new MemberService();
 	}
 
 	public void doCommand(String command) {
@@ -33,9 +37,11 @@ public class ArticleController {
 		}
 
 		Article article = articleService.getArticle(inputedId);
+		Member member = memberService.getMemberById(article.memberId);
 
 		System.out.println("== 게시물 상세 ==");
 		System.out.printf("번호 : %d\n", article.id);
+		System.out.printf("작성자 : %s\n", member.name);
 		System.out.printf("제목 : %s\n", article.title);
 		System.out.printf("내용 : %s\n", article.body);
 	}
@@ -71,11 +77,12 @@ public class ArticleController {
 		}
 
 		System.out.println("== 게시물 리스트 ==");
-		System.out.println("번호 / 제목");
+		System.out.println("번호 / 작성자 / 제목");
 
 		for (int i = startPos; i >= endPos; i--) {
 			Article article = articleService.getArticleByIndex(i);
-			System.out.printf("%d / %s\n", article.id, article.title);
+			Member member = memberService.getMemberById(article.memberId);
+			System.out.printf("%d / %s / %s\n", article.id, member.name, article.title);
 		}
 
 	}
@@ -94,7 +101,7 @@ public class ArticleController {
 		System.out.printf(" 내용 : ");
 		String body = Container.scanner.nextLine();
 
-		int id = articleService.add(title, body);
+		int id = articleService.add(title, body, Container.session.loginedMemberId);
 		System.out.printf("%d번 게시물이 생성되었습니다.\n", id);
 	}
 
