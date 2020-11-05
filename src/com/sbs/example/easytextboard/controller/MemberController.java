@@ -64,22 +64,60 @@ public class MemberController extends Controller {
 		String loginId;
 		String loginPw;
 
-		System.out.printf("로그인 아이디 : ");
-		loginId = Container.scanner.nextLine().trim();
+		Member member = null;
 
-		Member member = memberService.getMemberByLoginId(loginId);
+		int loginIdCount = 0;
+		int loginIdMaxCount = 3;
+		int loginPwCount = 0;
+		int loginPwMaxCount = 3;
 
-		if (member == null) {
-			System.out.println("존재하지 않는 아이디 입니다.");
-			return;
+		while (true) {
+
+			if (loginIdCount >= loginIdMaxCount) {
+				System.out.println("로그인을 취소합니다.");
+				return;
+			}
+
+			System.out.printf("로그인 아이디 : ");
+			loginId = Container.scanner.nextLine().trim();
+
+			if (loginId.length() == 0) {
+				System.out.println("입력된 값이 존재하지 않습니다.");
+				loginIdCount++;
+				continue;
+			}
+
+			member = memberService.getMemberByLoginId(loginId);
+
+			if (member == null) {
+				System.out.println("존재하지 않는 아이디 입니다.");
+				loginIdCount++;
+				continue;
+			}
+			break;
 		}
 
-		System.out.printf("로그인 비밀번호 : ");
-		loginPw = Container.scanner.nextLine().trim();
+		while (true) {
+			if (loginPwCount >= loginPwMaxCount) {
+				System.out.println("로그인을 취소합니다.");
+				return;
+			}
 
-		if (member.loginPw.equals(loginPw) == false) {
-			System.out.println("비밀번호가 일치하지 않습니다.");
-			return;
+			System.out.printf("로그인 비밀번호 : ");
+			loginPw = Container.scanner.nextLine().trim();
+
+			if (loginPw.length() == 0) {
+				System.out.println("입력된 값이 존재하지 않습니다.");
+				loginPwCount++;
+				continue;
+			}
+
+			if (member.loginPw.equals(loginPw) == false) {
+				System.out.println("비밀번호가 일치하지 않습니다.");
+				loginPwCount++;
+				continue;
+			}
+			break;
 		}
 
 		Container.session.login(member.memberId);
@@ -94,14 +132,31 @@ public class MemberController extends Controller {
 		String loginPw;
 		String name;
 
-		System.out.printf("로그인 아이디 : ");
-		loginId = Container.scanner.nextLine();
+		int loginIdCount = 0;
+		int loginIdMaxCount = 3;
 
-		boolean isJoinableLoginId = memberService.isJoinableLoginId(loginId);
+		while (true) {
+			if (loginIdCount >= loginIdMaxCount) {
+				System.out.println("회원가입을 취소합니다.");
+				return;
+			}
+			System.out.printf("로그인 아이디 : ");
+			loginId = Container.scanner.nextLine().trim();
 
-		if (isJoinableLoginId == false) {
-			System.out.printf("%s(은)는 이미 사용중인 아이디 입니다.\n", loginId);
-			return;
+			if (loginId.length() == 0) {
+				System.out.println("입력된 값이 존재하지 않습니다.");
+				loginIdCount++;
+				continue;
+			}
+
+			boolean isJoinableLoginId = memberService.isJoinableLoginId(loginId);
+
+			if (isJoinableLoginId == false) {
+				System.out.printf("%s(은)는 이미 사용중인 아이디 입니다.\n", loginId);
+				loginIdCount++;
+				continue;
+			}
+			break;
 		}
 
 		System.out.printf("로그인 비밀번호 : ");
