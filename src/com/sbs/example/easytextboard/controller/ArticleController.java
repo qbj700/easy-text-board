@@ -39,7 +39,20 @@ public class ArticleController extends Controller {
 			makeBoard(command);
 		} else if (command.startsWith("article selectBoard ")) {
 			selectBoard(command);
+		} else if (command.equals("article currentBoard")) {
+			currentBoard(command);
 		}
+
+	}
+
+	private void currentBoard(String command) {
+		if (Container.session.selectedBoardId == 0) {
+			System.out.println("게시판 선택 후 이용해 주세요.");
+			return;
+		}
+
+		Board board = articleService.getBoardById(Container.session.selectedBoardId);
+		System.out.printf("현재 \"%s\" 게시판이 선택되어있는 상태입니다.\n", board.name);
 
 	}
 
