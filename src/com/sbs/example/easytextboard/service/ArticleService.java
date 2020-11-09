@@ -43,4 +43,8 @@ public class ArticleService {
 
 	}
 
+	public int makeBoard(String boardName) {
+		return articleDao.makeBoard(boardName);
+	}
+
 }

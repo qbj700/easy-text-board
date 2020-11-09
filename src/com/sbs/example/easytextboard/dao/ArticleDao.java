@@ -4,15 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sbs.example.easytextboard.dto.Article;
+import com.sbs.example.easytextboard.dto.Board;
 
 public class ArticleDao {
 
 	private List<Article> articles;
+	private List<Board> boards;
 	private int lastArticleId;
+	private int lastBoardId;
 
 	public ArticleDao() {
 		articles = new ArrayList<>();
+		boards = new ArrayList<>();
 		lastArticleId = 0;
+		lastBoardId = 0;
 
 	}
 
@@ -65,6 +70,17 @@ public class ArticleDao {
 		article.body = body;
 		return article;
 
+	}
+
+	public int makeBoard(String boardName) {
+		Board board = new Board();
+		board.id = lastBoardId + 1;
+		board.name = boardName;
+
+		boards.add(board);
+		lastBoardId = board.id;
+
+		return board.id;
 	}
 
 }

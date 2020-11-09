@@ -34,7 +34,20 @@ public class ArticleController extends Controller {
 			modify(command);
 		} else if (command.startsWith("article search ")) {
 			search(command);
+		} else if (command.equals("article makeBoard")) {
+			makeBoard(command);
 		}
+
+	}
+
+	private void makeBoard(String command) {
+		System.out.println("== 게시판 생성 ==");
+
+		System.out.printf("게시판 이름 : ");
+		String boardName = Container.scanner.nextLine();
+
+		int boardId = articleService.makeBoard(boardName);
+		System.out.printf("%s (%d번) 게시판이 생성되었습니다.\n", boardName, boardId);
 
 	}
 
