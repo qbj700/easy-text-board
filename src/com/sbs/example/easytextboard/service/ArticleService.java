@@ -15,8 +15,8 @@ public class ArticleService {
 		articleDao = Container.articleDao;
 	}
 
-	public int add(String title, String body, int loginedMemberId) {
-		return articleDao.add(title, body, loginedMemberId);
+	public int add(String title, String body, int loginedMemberId, int boardId) {
+		return articleDao.add(title, body, loginedMemberId, boardId);
 
 	}
 
@@ -50,6 +50,12 @@ public class ArticleService {
 
 	public Board getBoardById(int inputedId) {
 		return articleDao.getBoardById(inputedId);
+	}
+
+	public int getDefultBoardId() {
+		List<Board> boards = articleDao.getBoards();
+
+		return boards.get(1).id;
 	}
 
 }

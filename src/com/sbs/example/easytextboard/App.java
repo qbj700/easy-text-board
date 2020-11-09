@@ -18,6 +18,14 @@ public class App {
 		articleController = Container.articleController;
 
 		makeTestData();
+
+		init();
+	}
+
+	private void init() {
+		ArticleService articleService = Container.articleService;
+		Container.session.selectedBoardId = articleService.getDefultBoardId();
+
 	}
 
 	private void makeTestData() {
@@ -26,14 +34,18 @@ public class App {
 		int firstMemberId = memberService.join("aaa", "aaa", "aaa");
 		int secondMemberId = memberService.join("bbb", "bbb", "bbb");
 
-		// 1번 회원이 공지사항 게시물 5개 작성
+		// 테스트 게시판 2개 생성
 		ArticleService articleService = Container.articleService;
+		int noticeBoardId = articleService.makeBoard("공지사항");
+		int freeBoardId = articleService.makeBoard("자유");
+
+		// 1번 회원이 공지사항 게시물 5개 작성
 		for (int i = 1; i <= 5; i++) {
-			articleService.add("제목" + i, "내용" + i, firstMemberId);
+			articleService.add("제목" + i, "내용" + i, firstMemberId, noticeBoardId);
 		}
 		// 2번 회원이 공지사항 게시물 5개 작성
 		for (int i = 6; i <= 10; i++) {
-			articleService.add("제목" + i, "내용" + i, secondMemberId);
+			articleService.add("제목" + i, "내용" + i, secondMemberId, freeBoardId);
 		}
 	}
 

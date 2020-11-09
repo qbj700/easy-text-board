@@ -280,7 +280,10 @@ public class ArticleController extends Controller {
 		System.out.printf(" 내용 : ");
 		String body = Container.scanner.nextLine();
 
-		int id = articleService.add(title, body, Container.session.loginedMemberId);
+		int memberId = Container.session.loginedMemberId;
+		int boardId = Container.session.selectedBoardId;
+
+		int id = articleService.add(title, body, memberId, boardId);
 		System.out.printf("%d번 게시물이 생성되었습니다.\n", id);
 	}
 

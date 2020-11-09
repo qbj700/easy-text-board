@@ -21,10 +21,11 @@ public class ArticleDao {
 
 	}
 
-	public int add(String title, String body, int loginedMemberId) {
+	public int add(String title, String body, int loginedMemberId, int boardId) {
 		Article article = new Article();
 		article.id = lastArticleId + 1;
 		article.memberId = loginedMemberId;
+		article.boardId = boardId;
 		article.title = title;
 		article.body = body;
 
@@ -90,6 +91,10 @@ public class ArticleDao {
 			}
 		}
 		return null;
+	}
+
+	public List<Board> getBoards() {
+		return boards;
 	}
 
 }

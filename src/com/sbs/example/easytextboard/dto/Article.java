@@ -5,4 +5,5 @@ public class Article {
 	public int memberId;
 	public String title;
 	public String body;
+	public int boardId;
 }
