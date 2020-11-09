@@ -6,17 +6,14 @@ import com.sbs.example.easytextboard.container.Container;
 import com.sbs.example.easytextboard.controller.ArticleController;
 import com.sbs.example.easytextboard.controller.Controller;
 import com.sbs.example.easytextboard.controller.MemberController;
-import com.sbs.example.easytextboard.controller.NullController;
 
 public class App {
 	private MemberController memberController;
 	private ArticleController articleController;
-	private NullController nullController;
 
 	public App() {
 		memberController = new MemberController();
 		articleController = new ArticleController();
-		nullController = new NullController();
 	}
 
 	public void run() {
@@ -31,7 +28,13 @@ public class App {
 				break;
 			}
 			Controller controller = getControllerByCommand(command);
-			controller.doCommand(command);
+			if (controller == null) {
+				System.out.println("존재하지 않는 명령어 입니다.");
+				continue;
+			}
+			if (controller != null) {
+				controller.doCommand(command);
+			}
 		}
 
 		sc.close();
@@ -43,9 +46,8 @@ public class App {
 			return memberController;
 		} else if (command.startsWith("article ")) {
 			return articleController;
-		} else {
-			return nullController;
 		}
+		return null;
 	}
 
 }
