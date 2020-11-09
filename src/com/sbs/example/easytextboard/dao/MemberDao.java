@@ -13,14 +13,6 @@ public class MemberDao {
 		members = new ArrayList<>();
 		lastMemberId = 0;
 
-		// 테스트 아이디 3개 생성
-		makeTestData();
-
-	}
-
-	private void makeTestData() {
-		join("aaa", "aaa", "aaa");
-		join("bbb", "bbb", "bbb");
 	}
 
 	public int join(String loginId, String loginPw, String name) {
