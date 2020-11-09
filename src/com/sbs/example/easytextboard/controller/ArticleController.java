@@ -224,6 +224,9 @@ public class ArticleController extends Controller {
 	}
 
 	private void list(String command) {
+		int boardId = Container.session.selectedBoardId;
+		Board board = articleService.getBoardById(boardId);
+
 		int page = 0;
 		try {
 			page = Integer.parseInt(command.split(" ")[2]);
@@ -238,12 +241,19 @@ public class ArticleController extends Controller {
 			page = 1;
 		}
 
+		List<Article> selectedBoardArticles = new ArrayList<>();
+		for (Article article : articleService.getArticles()) {
+			if (article.boardId == boardId) {
+				selectedBoardArticles.add(article);
+			}
+		}
+
 		int itemsInAPage = 10;
-		int startPos = articleService.getArticles().size() - 1;
+		int startPos = selectedBoardArticles.size() - 1;
 		startPos -= (page - 1) * itemsInAPage;
 		int endPos = startPos - (itemsInAPage - 1);
 
-		if (articleService.getArticles().size() == 0) {
+		if (selectedBoardArticles.size() == 0) {
 			System.out.println("게시물이 존재하지 않습니다.");
 			return;
 		}
@@ -255,11 +265,11 @@ public class ArticleController extends Controller {
 			endPos = 0;
 		}
 
-		System.out.println("== 게시물 리스트 ==");
+		System.out.printf("== %s 게시판 게시물 리스트 ==\n", board.name);
 		System.out.println("번호 / 작성자 / 제목");
 
 		for (int i = startPos; i >= endPos; i--) {
-			Article article = articleService.getArticleByIndex(i);
+			Article article = selectedBoardArticles.get(i);
 			Member member = memberService.getMemberById(article.memberId);
 			System.out.printf("%d / %s / %s\n", article.id, member.name, article.title);
 		}
