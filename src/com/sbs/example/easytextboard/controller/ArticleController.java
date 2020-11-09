@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.sbs.example.easytextboard.container.Container;
 import com.sbs.example.easytextboard.dto.Article;
+import com.sbs.example.easytextboard.dto.Board;
 import com.sbs.example.easytextboard.dto.Member;
 import com.sbs.example.easytextboard.service.ArticleService;
 import com.sbs.example.easytextboard.service.MemberService;
@@ -36,7 +37,33 @@ public class ArticleController extends Controller {
 			search(command);
 		} else if (command.equals("article makeBoard")) {
 			makeBoard(command);
+		} else if (command.startsWith("article selectBoard ")) {
+			selectBoard(command);
 		}
+
+	}
+
+	private void selectBoard(String command) {
+		int inputedId = 0;
+
+		try {
+			inputedId = Integer.parseInt(command.split(" ")[2]);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.println("입력된 게시판 번호가 존재하지 않습니다.");
+			return;
+		} catch (NumberFormatException e) {
+			System.out.println("게시판 번호는 양의 정수를 입력해주세요.");
+			return;
+		}
+
+		Board board = articleService.getBoardById(inputedId);
+
+		if (board == null) {
+			System.out.printf("%d번 게시판은 존재하지 않습니다.\n", inputedId);
+			return;
+		}
+		System.out.printf("%s(%d번) 게시판이 선택되었습니다.\n", board.name, board.id);
+		Container.session.selectedBoard(board.id);
 
 	}
 

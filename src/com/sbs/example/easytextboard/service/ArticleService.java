@@ -5,6 +5,7 @@ import java.util.List;
 import com.sbs.example.easytextboard.container.Container;
 import com.sbs.example.easytextboard.dao.ArticleDao;
 import com.sbs.example.easytextboard.dto.Article;
+import com.sbs.example.easytextboard.dto.Board;
 
 public class ArticleService {
 
@@ -45,6 +46,10 @@ public class ArticleService {
 
 	public int makeBoard(String boardName) {
 		return articleDao.makeBoard(boardName);
+	}
+
+	public Board getBoardById(int inputedId) {
+		return articleDao.getBoardById(inputedId);
 	}
 
 }
