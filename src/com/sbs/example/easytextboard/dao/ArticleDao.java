@@ -18,8 +18,11 @@ public class ArticleDao {
 	}
 
 	private void makeTestData() {
-		for (int i = 1; i <= 20; i++) {
-			add("제목" + i, "내용" + i, i % 2 == 0 ? 1 : 2);
+		for (int i = 1; i <= 5; i++) {
+			add("제목" + i, "내용" + i, 1);
+		}
+		for (int i = 6; i <= 10; i++) {
+			add("제목" + i, "내용" + i, 2);
 		}
 
 	}

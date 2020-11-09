@@ -24,6 +24,8 @@ public class ArticleController extends Controller {
 			add(command);
 		} else if (command.startsWith("article list ")) {
 			list(command);
+		} else if (command.equals("article list")) {
+			list(command);
 		} else if (command.startsWith("article detail ")) {
 			detail(command);
 		} else if (command.startsWith("article delete ")) {
@@ -172,6 +174,8 @@ public class ArticleController extends Controller {
 		int page = 0;
 		try {
 			page = Integer.parseInt(command.split(" ")[2]);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			page = 1;
 		} catch (NumberFormatException e) {
 			System.out.println("페이지 번호는 양의 정수를 입력해 주세요.");
 			return;

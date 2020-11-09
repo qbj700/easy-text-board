@@ -19,9 +19,8 @@ public class MemberDao {
 	}
 
 	private void makeTestData() {
-		for (int i = 1; i <= 3; i++) {
-			join("user" + i, "user" + i, "user" + i);
-		}
+		join("aaa", "aaa", "aaa");
+		join("bbb", "bbb", "bbb");
 	}
 
 	public int join(String loginId, String loginPw, String name) {
